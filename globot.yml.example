@@ -1,0 +1,6 @@
+globot:
+  rooms: [Test, Another Room, Secret Room]
+campfire:
+  account: campfire_account_name
+  api_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  use_ssl: true

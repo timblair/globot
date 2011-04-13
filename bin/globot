@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+require 'globot'
+require 'optparse'
+
+OPTIONS = {
+  :daemonise  => false,
+  :config     => File.expand_path(File.dirname(__FILE__) + '/../globot.yml')
+}
+
+opts = ARGV.options do |o|
+  script_name = File.basename($0)
+
+  o.banner = "Globot (#{Globot::VERSION})\n",
+             "A young upstart of a Campfire-bot.\n\n",
+             "Usage: #{script_name} [options...] COMMAND\n",
+             "       #{script_name} --help\n",
+             "       #{script_name} --version\n\n"
+
+  o.separator "Commands:\n" +
+              "    start      Start Globot.\n" +
+              "    stop       Stop Globot if he's running in the background.\n" +
+              "    status     Is Globot running?\n\n"
+
+  o.separator "Options:"
+  o.on("-d", "--daemonise", "Run #{script_name} in the background.") { OPTIONS[:daemonise] = true }
+  o.on("-c", "--config PATH", "The config file to use.", "Default: #{OPTIONS[:config]}") { |p| OPTIONS[:config] = p }
+
+  o.on_tail("-?", "--help", "Show this help message.") { puts o; exit }
+  o.on_tail("-V", "--version", "Print version number and exit.") { puts "Globot #{Globot::VERSION}\n\n"; exit }
+end
+
+opts.parse!
+runner = Globot::Runner.new(OPTIONS)
+
+case ARGV[0]
+when 'start'
+  runner.start
+when 'stop'
+  runner.stop
+when 'restart'
+  runner.stop
+  runner.start
+when 'status'
+  runner.status
+else
+  puts opts.help
+end
+
