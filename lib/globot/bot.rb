@@ -21,7 +21,7 @@ module Globot
       room = @rooms.first   # just one room for now
       room.listen do |msg|
         begin
-          if msg['user']['id'] != id   # ignore messages from myself
+          if msg['user']['id'] != id   # ignore messages from myself
             puts msg.inspect
             room.speak msg['body']
           end
