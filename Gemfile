@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 gem 'tinder'
 gem 'json'
+gem 'trollop'
 
 group :development do
   gem 'rocco'
