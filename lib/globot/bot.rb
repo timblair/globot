@@ -26,10 +26,8 @@ module Globot
       room = @rooms.first   # just one room for now
       room.listen do |msg|
         begin
-          if msg['user']['id'] != id   # ignore messages from myself
-            Globot::Plugins.handle(msg['body'])
-            #puts msg.inspect
-            #room.speak msg['body']
+          if !msg.nil? && msg['user']['id'] != id   # ignore messages from myself
+            Globot::Plugins.handle Globot::Message.new(msg, room)
           end
         rescue Exception => e
           trace = e.backtrace.join("\n")
