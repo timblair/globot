@@ -8,7 +8,7 @@ module Globot
       end
 
       def handle(msg)
-        puts "#{self.class.to_s} received: #{msg}"
+        #puts "#{self.class.to_s} received: #{msg}"
       end
 
     end
