@@ -4,6 +4,11 @@ module Globot
     attr_accessor :id, :email, :name
 
     def initialize(domain, token, opts = {})
+      Globot::Plugins.load!(self)
+      connect(domain, token, opts)
+    end
+
+    def connect(domain, token, opts)
       @campfire = Tinder::Campfire.new(domain, { :token => token })
 
       me     = @campfire.me
@@ -22,8 +27,9 @@ module Globot
       room.listen do |msg|
         begin
           if msg['user']['id'] != id   # ignore messages from myself
-            puts msg.inspect
-            room.speak msg['body']
+            Globot::Plugins.handle(msg['body'])
+            #puts msg.inspect
+            #room.speak msg['body']
           end
         rescue Exception => e
           trace = e.backtrace.join("\n")

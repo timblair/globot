@@ -7,6 +7,10 @@ module Globot
         self.description = "Doesn't do anything, just here for testing purposes"
       end
 
+      def handle(msg)
+        puts "#{self.class.to_s} received: #{msg}"
+      end
+
     end
   end
 end
