@@ -40,6 +40,12 @@ case cmd
     runner.start
   when 'status'
     runner.status
+  when 'plugins'
+    puts "Available plugins:"
+    Globot::Plugins.load!
+    Globot::Plugins.active.each do |p|
+      puts "  #{p.name}: #{p.description}"
+    end
   else
     Trollop::die "unknown subcommand #{cmd.inspect}"
   end
