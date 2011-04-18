@@ -23,18 +23,24 @@ module Globot
 
     def start
 
-      room = @rooms.first   # just one room for now
-      room.listen do |msg|
-        begin
-          if !msg.nil? && msg['user']['id'] != id   # ignore messages from myself
-            Globot::Plugins.handle Globot::Message.new(msg, room)
+      # join each room
+      threads = []
+      @rooms.each do |room|
+        # `Room#listen` blocks, so run each one in a separate thread
+        threads << Thread.new do
+          begin
+            room.listen do |msg|
+              if !msg.nil? && msg['user']['id'] != id   # ignore messages from myself
+                Globot::Plugins.handle Globot::Message.new(msg, room)
+              end
+            end
+          rescue Exception => e
+            trace = e.backtrace.join("\n")
+            puts "ERROR: #{e.message}\n#{trace}"
           end
-        rescue Exception => e
-          trace = e.backtrace.join("\n")
-          puts "ERROR: #{e.message}\n#{trace}"
         end
       end
-
+      threads.each { |t| t.join }
     end
 
   end
