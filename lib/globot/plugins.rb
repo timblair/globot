@@ -9,16 +9,15 @@ module Globot
       attr_reader :active
 
       # find all plugin files and load them
-      def load!(bot = nil)
+      def load!
         # each file should contain one or more subclasses of Globot::Plugin::Base
         # which, when loaded, will automatically register the class with this
         # class, meaning we have a collection of all plugins
         Dir[File.expand_path('../plugins/*.rb', __FILE__)].collect { |p| load p }
 
         # once we've loaded and registered all plugins, we activate them all by
-        # creating a new instance of each one (also adding a reference to the
-        # Globot::Bot instance)
-        activate(bot)
+        # creating a new instance of each one
+        activate
       end
 
       # register a given plugin class
@@ -27,12 +26,8 @@ module Globot
       end
 
       # activate all plugins by creating a new instance of each one
-      def activate(bot = nil)
-        @plugins.each do |klass|
-          p = klass.new
-          p.bot = bot if !bot.nil?
-          @active << p
-        end
+      def activate
+        @plugins.each { |p| @active << p.new }
       end
 
       def handle(msg)
@@ -55,7 +50,6 @@ module Globot
       end
 
       attr_accessor :name, :description
-      attr_writer :bot
 
       def name
         @name || self.class.to_s

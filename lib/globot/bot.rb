@@ -4,7 +4,7 @@ module Globot
     attr_accessor :id, :email, :name
 
     def initialize(domain, token, opts = {})
-      Globot::Plugins.load!(self)
+      Globot::Plugins.load!
       connect(domain, token, opts)
     end
 
