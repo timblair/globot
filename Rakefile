@@ -16,7 +16,7 @@ end
 
 # Bring in Rocco tasks
 require 'rocco/tasks'
-Rocco::make 'docs/'
+Rocco::make 'doc/'
 
 desc 'Build Globot docs'
 task :docs => :rocco
