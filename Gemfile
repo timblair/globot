@@ -9,4 +9,5 @@ end
 
 group :test do
   gem 'turn'
+  gem 'mocha'
 end
