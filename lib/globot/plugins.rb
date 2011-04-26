@@ -43,19 +43,9 @@ module Globot
       # Each received message (including the room it was sent in) is passed off
       # to every active plugin, which deals with it as it sees fit (replying,
       # ignoring etc.)
-      #
-      # How we handle each message is dependant on it's type.  At the moment
-      # we're only dealing with `Text` and `Paste` message types; everything
-      # else is logged and ignored.  Other message types that may be taken
-      # into consideration in the future are `Kick`, `Timestamp`, `Tweet`
-      # and `Advertisement`.
       def handle(msg)
-        case msg.type
-          when "TextMessage", "PasteMessage"
-            @active.each { |p| p.handle(msg) }
-          else
-            puts "Ignoring message of type #{msg.type}"
-        end
+        Globot.logger.debug "--> [#{msg.type} / #{msg.person}] #{msg.raw}"
+        @active.each { |p| p.handle(msg) }
       end
 
     end  # class << self
