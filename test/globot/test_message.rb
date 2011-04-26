@@ -28,4 +28,10 @@ class MessageTest < Test::Unit::TestCase
     assert_equal 'test', msg.body
   end
 
+  def test_whole_body_is_retained_when_command_is_parsed
+    command, body = Globot::Message.parse_command('!cmd A Longer Test Message')
+    assert_equal 'cmd', command
+    assert_equal 'A Longer Test Message', body
+  end
+
 end
