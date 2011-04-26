@@ -36,7 +36,11 @@ module Globot
           raise e
         end
 
-        trains = res.body['trains'].collect { |t| "#{t[1]} to #{t[2]}: #{t[3]}" }
+        trains = res.body['trains'].collect do |t|
+          # trains that are late have escaped HTML in the response
+          t[3] = "Expected at #{t[3].sub('&lt;br/&gt; ', '(')})" if t[3] != 'On time'
+          "#{t[1]} to #{t[2]}: #{t[3]}"
+        end
         msg.paste trains.join("\n")
       end
 
