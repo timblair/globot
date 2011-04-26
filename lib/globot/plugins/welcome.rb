@@ -1,14 +1,21 @@
 module Globot
   module Plugin
-    class Test < Globot::Plugin::Base
+    class Welcome < Globot::Plugin::Base
+
+      SCRIPTS = [
+        '%s is in da house!',
+        'Welcome to the room, %s.',
+        'Back again hey, %s?',
+        '%s! Good to see you!'
+      ]
 
       def initialize
-        self.name = "Test"
-        self.description = "Doesn't do anything, just here for testing purposes"
+        self.name = "Welcome"
+        self.description = "Welcomes any new users who join the room."
       end
 
       def handle(msg)
-        #puts "#{self.class.to_s} received: #{msg}"
+        msg.reply(sprintf(SCRIPTS[rand(SCRIPTS.size)], msg.person)) if msg.type == 'EnterMessage'
       end
 
     end
