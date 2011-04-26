@@ -21,22 +21,23 @@ module Globot
       @rooms = @rooms.select { |r| opts[:rooms].include? r.name } if !opts[:rooms].nil?
     end
 
+    # Start listening to all messages on the configured rooms.  Takes each
+    # message and palms it off to the plugin manager for processing.
     def start
-
-      # join each room
       threads = []
       @rooms.each do |room|
         # `Room#listen` blocks, so run each one in a separate thread
         threads << Thread.new do
-          begin
-            room.listen do |msg|
-              if !msg.nil? && msg['user']['id'] != id   # ignore messages from myself
+          room.listen do |msg|
+            begin
+              # Ignore messages originating from the bot's user
+              if !msg.nil? && (msg['user'].nil? || msg['user']['id'] != id)
                 Globot::Plugins.handle Globot::Message.new(msg, room)
               end
+            rescue Exception => e
+              trace = e.backtrace.join("\n")
+              Globot.logger.error "#{e.message}\n#{trace}"
             end
-          rescue Exception => e
-            trace = e.backtrace.join("\n")
-            puts "ERROR: #{e.message}\n#{trace}"
           end
         end
       end
