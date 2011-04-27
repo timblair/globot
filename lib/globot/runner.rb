@@ -1,21 +1,7 @@
 require File.join(File.dirname(__FILE__), 'bot')
 require 'yaml'
-require 'logger'
 
 module Globot
-
-  class << self
-    attr_accessor :logger
-
-    def init_logger(file, level)
-      file = File.join(File.dirname(__FILE__), '..', '..', file) if file.class == String && file.match(/^[\\\/]/)
-      Globot.logger = Logger.new(file)
-      Globot.logger.progname = 'globot'
-      # TODO: pass the correct log level through from the config
-      Globot.logger.level = Logger::DEBUG
-    end
-  end
-
   class Runner
 
     def initialize(opts)
