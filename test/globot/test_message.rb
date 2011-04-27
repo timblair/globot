@@ -3,7 +3,8 @@ class MessageTest < Test::Unit::TestCase
   def setup
     @simple_message = { 'body' => 'This is a test', 'type' => 'TestMessage', 'user' => { 'name' => 'Test User' }}
     @command_message = @simple_message.merge({ 'body' => '!cmd test' })
-    @msg = Globot::Message.new(@simple_message, nil)
+    @room = mock
+    @msg = Globot::Message.new(@simple_message, @room)
   end
 
   def test_command_is_parsed_correctly
@@ -32,6 +33,18 @@ class MessageTest < Test::Unit::TestCase
     command, body = Globot::Message.parse_command('!cmd A Longer Test Message')
     assert_equal 'cmd', command
     assert_equal 'A Longer Test Message', body
+  end
+
+  def test_message_responds_to_all_reply_methods
+    %w{speak paste upload play}.each { |m| assert @msg.respond_to? m }
+  end
+
+  def test_responding_to_a_message_calls_the_room_correctly
+    body = "Random test body"
+    %w{speak paste upload play}.each do |method|
+      @room.expects(method.to_sym).with(body).once
+      @msg.send method, body
+    end
   end
 
 end
