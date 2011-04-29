@@ -3,6 +3,7 @@ require 'tinder'
 require 'json'   # Tinder needs this internally for parsing the transcript
 require 'logger'
 require 'globot/bot'
+require 'globot/person'
 require 'globot/message'
 require 'globot/plugins'
 require 'globot/runner'

@@ -6,7 +6,7 @@ module Globot
     def initialize(msg, room)
       @raw    = msg['body']
       @type   = msg['type']
-      @person = msg['user'].nil? ? nil : msg['user']['name']
+      @person = Globot::Person.new msg['user']
       @room   = room
       @command, @body = self.class.parse_command(@raw)
     end

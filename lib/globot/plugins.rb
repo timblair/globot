@@ -44,7 +44,7 @@ module Globot
       # to every active plugin, which deals with it as it sees fit (replying,
       # ignoring etc.)
       def handle(msg)
-        Globot.logger.debug "--> [#{msg.type} / #{msg.person}] #{msg.raw}"
+        Globot.logger.debug "--> [#{msg.type} / #{msg.person.name}] #{msg.raw}"
         @active.each { |p| p.handle(msg) }
       end
 

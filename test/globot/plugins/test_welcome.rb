@@ -1,25 +1,16 @@
-class MockMessage
-  attr_accessor :body, :type, :person
-  def initialize(msg)
-    @body   = msg['body']
-    @type   = msg['type']
-    @person = msg['user']['name']
-  end
-  def reply(str)
-    str
-  end
-end
-
 class WelcomePluginTest < Test::Unit::TestCase
 
   def setup
+    @payload = { 'body' => '', 'type' => 'EnterMessage', 'user' => { 'name' => 'Test User' }}
+    @room = mock
+    @msg = Globot::Message.new(@payload, @room)
     Globot::Plugins.load!
-    @msg = MockMessage.new({ 'body' => '', 'type' => 'EnterMessage', 'user' => { 'name' => 'Test User' }})
     @plugin = Globot::Plugin::Welcome.new
   end
 
   def test_welcome_message_is_output
-    assert_match /#{@msg.person}/, @plugin.handle(@msg)
+    @room.expects(:speak).with(regexp_matches(/#{@msg.person.name}/)).once
+    @plugin.handle @msg
   end
 
 end

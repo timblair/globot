@@ -15,7 +15,7 @@ module Globot
       end
 
       def handle(msg)
-        msg.reply(sprintf(SCRIPTS[rand(SCRIPTS.size)], msg.person)) if msg.type == 'EnterMessage'
+        msg.reply(sprintf(SCRIPTS[rand(SCRIPTS.size)], msg.person.name)) if msg.type == 'EnterMessage'
       end
 
     end
