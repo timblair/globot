@@ -21,10 +21,10 @@ module Globot
 
     def init_logger(file, level)
       file = File.join(File.dirname(__FILE__), '..', file) if file.class == String && !file.match(/^[\\\/]/)
+      level = level.upcase! && %w{ DEBUG INFO WARN ERROR FATAL }.include?(level) ? level : "INFO"
       Globot.logger = Logger.new(file)
       Globot.logger.progname = 'globot'
-      # TODO: pass the correct log level through from the config
-      Globot.logger.level = Logger::DEBUG
+      Globot.logger.level = Logger.const_get(level)
     end
   end
 end

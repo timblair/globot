@@ -7,7 +7,7 @@ module Globot
     def initialize(opts)
       @config = YAML::load(File.read(opts[:config]))
 
-      logger = (@config['globot']['logger'] || {}).merge({ 'path' => 'tmp/globot.log', 'level' => :info })
+      logger = { 'path' => 'tmp/globot.log', 'level' => :info }.merge(@config['globot']['logger'] || {})
       Globot.init_logger((opts[:daemonise] ? logger['path'] : STDOUT), logger['level'])
 
       Globot.logger.debug "Initing new runner with #{opts.inspect}"
