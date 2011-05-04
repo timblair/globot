@@ -5,7 +5,7 @@ module Globot
     class LiveDepartures < Globot::Plugin::Base
 
       NAT_RAIL_HOST = 'http://ojp.nationalrail.co.uk'
-      NAT_RAIL_PATH = '/en/s/ldb/liveTrainsJson'
+      NAT_RAIL_PATH = '/service/ldb/liveTrainsJson'
 
       def initialize
         self.name = "Live Departures"
