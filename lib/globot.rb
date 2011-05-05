@@ -3,19 +3,21 @@ require 'tinder'
 require 'json'   # Tinder needs this internally for parsing the transcript
 require 'logger'
 
-require 'globot/bot'
-require 'globot/person'
-require 'globot/message'
-require 'globot/plugins'
-require 'globot/config'
-require 'globot/runner'
-
 # Turn SSL verification off to stop incredibly annoying "peer certificate
 # won't be verified in this SSL session" warnings.
 require 'ext/tinder/disable_ssl_verification'
 
 module Globot
   VERSION = "0.0.1"
+
+  # Autoloading goodness for speedy startups.  `autoload` isn't thread safe,
+  # but we're not really worried about high concurrency access here.  We can
+  # also abstract things slightly because all class names and file names are
+  # consistent.  For more info on the thread-safety of `autoload` see
+  # http://www.ruby-forum.com/topic/172385
+  %w{ Bot Person Message Plugins Config Runner }.each do |klass|
+    autoload klass.to_sym, "globot/#{klass.downcase}"
+  end
 
   class << self
     attr_accessor :logger, :config
