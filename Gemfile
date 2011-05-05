@@ -2,6 +2,7 @@ source "http://rubygems.org"
 gem 'tinder'
 gem 'json'
 gem 'trollop'
+gem 'activesupport'
 
 group :development do
   gem 'rocco'
