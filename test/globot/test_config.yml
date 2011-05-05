@@ -1,0 +1,3 @@
+root:
+  sub1: value
+  sub2: [ 1, 2, 3 ]

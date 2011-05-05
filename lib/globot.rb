@@ -2,10 +2,12 @@ require 'rubygems'
 require 'tinder'
 require 'json'   # Tinder needs this internally for parsing the transcript
 require 'logger'
+
 require 'globot/bot'
 require 'globot/person'
 require 'globot/message'
 require 'globot/plugins'
+require 'globot/config'
 require 'globot/runner'
 
 # Turn SSL verification off to stop incredibly annoying "peer certificate
@@ -16,8 +18,12 @@ module Globot
   VERSION = "0.0.1"
 
   class << self
-    attr_accessor :logger
+    attr_accessor :logger, :config
+
+    # To make sure we've got access to the logger and configs at a module
+    # level, we'll define them here with default values
     Globot.logger = Logger.new(nil)
+    Globot.config = Globot::Config.instance
 
     def init_logger(file, level)
       file = File.join(File.dirname(__FILE__), '..', file) if file.class == String && !file.match(/^[\\\/]/)
