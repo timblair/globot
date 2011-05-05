@@ -1,10 +1,5 @@
 # Globot TODOs
 
-## Config settings for plugins
-
-* Allow plugins access to the `globot\plugins` config key
-* This hash will contain any config required for individual plugins
-
 ## Persistent storage for plugins
 
 * KVP storage for individual plugins
