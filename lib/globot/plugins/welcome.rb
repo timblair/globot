@@ -9,7 +9,7 @@ module Globot
         '%s! Good to see you!'
       ]
 
-      def initialize
+      def setup
         self.name = "Welcome"
         self.description = "Welcomes any new users who join the room."
       end

@@ -1,3 +1,6 @@
-root:
+globot:
   sub1: value
   sub2: [ 1, 2, 3 ]
+  plugins:
+    plugin: value
+    config: [ 1, 2, 3 ]

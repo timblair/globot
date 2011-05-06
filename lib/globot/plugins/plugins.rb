@@ -2,7 +2,7 @@ module Globot
   module Plugin
     class Plugins < Globot::Plugin::Base
 
-      def initialize
+      def setup
         self.name = "Plugins"
         self.description = "Lists the active plugins."
       end

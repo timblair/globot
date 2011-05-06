@@ -37,7 +37,7 @@ module Globot
       # Plugins are 'activated' by creating a new instance of each one based on
       # the list of class names we have registered.
       def activate
-        @plugins.each { |p| @active << p.new }
+        @plugins.each { |p| @active << p.new(Globot.config.for_plugin(p)) }
       end
 
       # Each received message (including the room it was sent in) is passed off
@@ -63,6 +63,25 @@ module Globot
         Globot::Plugins.register(klass)
       end
 
+      # On initialisation, any config defined for this plugin will be
+      # passed in.  The config should be stored in the YAML config file
+      # under the key structure `globot\plugins\my_plugin_name`, where
+      # `my_plugin_name` is the underscored, demodularised version of
+      # the plugin class.  For example, a plugin of the class
+      # `Globot::Plugins::MyTestPlugin` would use the configuration
+      # data stored under `my_test_plugin`.
+      def initialize(config = nil)
+        @config = config
+        setup
+      end
+
+      # Rather than overriding the `initializing` method in the subclass,
+      # we'll use a non-standard `setup` method which can be used to set
+      # things like plugin name and description, plus any other setup
+      # that may be required.
+      def setup
+      end
+
       # The `#handle` method must be overridden in the plugin subclass; this
       # is where the plugin decides what to do with the message and how to
       # respond (if a response is actually required)
@@ -71,14 +90,14 @@ module Globot
       end
 
       # For verbosity and ease of use, a plugin subclass can set `@name`
-      # and `description` instance variables which are useful when listing
+      # and `@description` instance variables which are useful when listing
       # the loaded plugins.
-      attr_accessor :name, :description
+      attr_accessor :name, :description, :config
 
       # If a `@name` instance variable is not provided in the plugin
       # subclass, we default to using the class name.
       def name
-        @name || self.class.to_s
+        @name || self.class.name
       end
 
     end
