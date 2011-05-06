@@ -48,11 +48,18 @@ module Globot
         @active.each { |p| p.handle(msg) }
       end
 
+      # A persistent store is provided for plugins to use as they will.  The
+      # location of the SQLite database is stored in the special `database`
+      # plugin key.
+      def store
+        @store ||= Globot::Store.new(Globot.config.for_plugin('database'))
+      end
+
     end  # class << self
   end # class Plugins
 
-  # All plugins must extend the `Globot::Plugin::Base` class.
   module Plugin
+    # All plugins must extend the `Globot::Plugin::Base` class.
     class Base
 
       # Automatic callback function called whenever this class is subclassed
@@ -100,7 +107,24 @@ module Globot
         @name || self.class.name
       end
 
-    end
-  end
+      private
+
+      # Provides a KVP style persistent store for data for the plugin.
+      # All direct access is abstracted away into three simple commands:
+      # `set`, `get` and `del`.  When `set` is called, the value actually
+      # stored (and returned from future `get` calls) is the `to_s`
+      # version of whatever object is given.  Example usage:
+      #
+      #     store.get 'my_key'           # => nil
+      #     store.set 'my_key', 'value'  # => true
+      #     store.get 'my_key'           # => 'value'
+      #     store.del 'my_key'           # => true
+      #     store.del 'my_key'           # => false
+      def store
+        @store ||= Globot::StoreProxy.new(Globot::Plugins.store, self)
+      end
+
+    end # class Base
+  end # module Plugin
 
 end
