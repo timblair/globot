@@ -26,3 +26,4 @@ globot.yml
 tmp/*
 log/*
 *.log
+db/*
