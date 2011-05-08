@@ -3,36 +3,51 @@ require 'sqlite3'
 module Globot
   class Store
 
+    TABLE_NAME = 'plugin_data'
+
     def initialize(path)
       path = File.join(File.dirname(__FILE__), '..', path) if !path.match(/^[\\\/]/)
       @db = SQLite3::Database.new(path)
       setup!
     end
 
-    def get(key)
+    # Returns a given key for a given namespace.  Returns `nil` if not found.
+    def get(namespace, key)
+      @db.get_first_value("SELECT data FROM #{TABLE_NAME} WHERE plugin = ? AND key = ?", namespace, key)
     end
 
-    def set(key, value)
+    # Sets the value for a given namespace/key.  Stores the result of `value.to_s`,
+    # and returns the value stored.
+    def set(namespace, key, value)
+      @db.execute("REPLACE INTO #{TABLE_NAME} (plugin, key, data, updated_at) VALUES (?,?,?,datetime())", namespace, key, value.to_s)
+      value.to_s
     end
 
-    def delete(key)
+    # Deletes the value for a given namespace/key.  Always returns `nil`.
+    def delete(namespace, key)
+      @db.execute("DELETE FROM #{TABLE_NAME} WHERE plugin = ? AND key = ?", namespace, key)
     end
 
     # Create the table we use to store all the plugin data, but only if
     # it doesn't already exist.
     def setup!
-      if @db.get_first_value('SELECT COUNT(*) FROM sqlite_master WHERE name = "plugin_data"') == 0
+      if !data_table_exists?
         @db.execute <<SQL
-          CREATE TABLE plugin_data (
-            id         INTEGER PRIMARY KEY,
-            plugin     VARCHAR(255),
-            key        VARCHAR(255),
+          CREATE TABLE #{TABLE_NAME} (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            plugin     VARCHAR(255) NOT NULL,
+            key        VARCHAR(255) NOT NULL,
             data       TEXT,
-            created_at DATETIME,
-            updated_at DATETIME
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT plugin_key UNIQUE (plugin, key)
           );
 SQL
       end
+    end
+
+    def data_table_exists?
+      @db.get_first_value("SELECT COUNT(*) FROM sqlite_master WHERE name = ?", TABLE_NAME) == 1
     end
 
   end # class Store
