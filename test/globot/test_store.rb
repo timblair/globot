@@ -10,7 +10,7 @@ class StoreTest < Test::Unit::TestCase
   end
 
   def teardown
-    File.delete @db
+    File.delete @db rescue nil
   end
 
   def test_new_store_instance_creates_database_file
