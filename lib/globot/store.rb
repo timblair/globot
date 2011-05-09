@@ -5,9 +5,13 @@ module Globot
 
     TABLE_NAME = 'plugin_data'
 
-    def initialize(path)
+    def self.absolute_path_for(path)
       path = File.join(File.dirname(__FILE__), '..', path) if !path.match(/^[\\\/]/)
-      @db = SQLite3::Database.new(path)
+      path
+    end
+
+    def initialize(path)
+      @db = SQLite3::Database.new(self.class.absolute_path_for(path))
       setup!
     end
 
