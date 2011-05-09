@@ -18,6 +18,9 @@ module Globot
   %w{ Bot Person Message Plugins Config Runner Store }.each do |klass|
     autoload klass.to_sym, "globot/#{klass.downcase}"
   end
+  # `StoreProxy` is in the `store.rb` file, so doesn't conform to the naming
+  # conventions that allow us to semi-automate things above.
+  autoload :StoreProxy, "globot/store"
 
   class << self
     attr_accessor :logger, :config
