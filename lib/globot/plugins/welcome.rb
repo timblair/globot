@@ -7,7 +7,8 @@ module Globot
         'Welcome to the room, %s.',
         'Back again hey, %s?',
         '%s! Good to see you!'
-      ]
+      # Plugins can be reloaded dynamically, and we don't want to redefine contants.
+      ] unless self.const_defined?('SCRIPTS')
 
       def setup
         self.name = "Welcome"
