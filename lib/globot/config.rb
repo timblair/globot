@@ -14,13 +14,7 @@ module Globot
 
     def for_plugin(klass)
       klass = klass.to_s if klass.is_a? Class
-      key = klass.demodulize.underscore
-      # TODO: There must be a better way to test for the
-      # existence of nested has keys, right?
-      return nil if self[:globot].nil?
-      return nil if self[:globot][:plugins].nil?
-      return nil if self[:globot][:plugins][key].nil?
-      self[:globot][:plugins][key].dup.freeze
+      self[:globot][:plugins][klass.demodulize.underscore].dup.freeze rescue nil
     end
 
   end
