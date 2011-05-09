@@ -1,0 +1,11 @@
+globot:
+  rooms: [Test, Another Room, Secret Room]
+  logger:
+    path: ../tmp/globot-test.log
+    level: debug
+  plugins:
+    database: ../tmp/globot-test.db
+campfire:
+  account: campfire_account_name
+  api_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  use_ssl: true

@@ -4,7 +4,6 @@ class WelcomePluginTest < Test::Unit::TestCase
     @payload = { 'body' => '', 'type' => 'EnterMessage', 'user' => { 'name' => 'Test User' }}
     @room = mock
     @msg = Globot::Message.new(@payload, @room)
-    Globot::Plugins.load!
     @plugin = Globot::Plugin::Welcome.new
   end
 
