@@ -6,7 +6,7 @@ module Globot
     TABLE_NAME = 'plugin_data'
 
     def self.absolute_path_for(path)
-      path = File.join(File.dirname(__FILE__), '..', path) if !path.match(/^[\\\/]/)
+      path = File.join(File.dirname(__FILE__), '..', '..', path) if !path.match(/^[\\\/]/)
       path
     end
 
