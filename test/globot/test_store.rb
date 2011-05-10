@@ -56,6 +56,12 @@ class StoreTest < Test::Unit::TestCase
     assert_nil @store.get('ns', 'key')
   end
 
+  def test_truncating_the_store_clears_all_data
+    @store.set('ns', 'key', 'value')
+    @store.truncate!
+    assert_nil @store.get('ns', 'key')
+  end
+
   # There's also proxy access to the store, which automatically passes
   # the namespace based on the plugin given at initialisation.
   def test_proxy_sets_namespace_based_on_plugin_given

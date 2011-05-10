@@ -26,7 +26,7 @@ module Globot::Test
       # Re-load any configuration.
       Globot::Config.load File.join(File.dirname(__FILE__), 'config.yml')
       # Clear the persistent store.
-      File.delete Globot::Store.absolute_path_for(Globot::Config.instance.for_plugin("database")) rescue nil
+      Globot::Plugins.store.truncate!
     end
   end
 end

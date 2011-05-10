@@ -54,6 +54,10 @@ SQL
       @db.get_first_value("SELECT COUNT(*) FROM sqlite_master WHERE name = ?", TABLE_NAME) == 1
     end
 
+    def truncate!
+      @db.execute "DELETE FROM #{TABLE_NAME}" if data_table_exists?
+    end
+
   end # class Store
 
   # To simplify a plugin's job of writing to the store, we can use
