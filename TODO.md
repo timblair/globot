@@ -1,14 +1,16 @@
 # Globot TODOs
 
-## Persistent storage for plugins
+* Documentation
+  * README, including information on creating new plugins
+  * Basic project page (GH pages?)
+  * Published, detailed Rocco docs
+* Plugin management
+  * Specifiy alternate/additional locations to load plugins from
+  * Some way of enabling/disabling specific plugins
+  * Provide a mechanism for a plugin to deactivate itself on error
+* Plugin storage
+  * Some way of bootstrapping specifc plugin data into the store on first run
 
-* KVP storage for individual plugins
-* Single SQLite table: id, plugin, key, data, timestamp
-* Each plugin is free use its own conventions for keys
-* Is there a need for some form of migrations for initing new plugins?
+## Known Issues
 
-### Example usage for plugin storage
-
-* Live departures can store a user's regular route
-* Welcome can store all phrases in the DB
-* Can have "lunch recommender" when users can add new suggestions
+* Bot has a bad habit of disappearing from rooms after long periods of inactivity
