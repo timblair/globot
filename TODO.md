@@ -10,7 +10,9 @@
   * Provide a mechanism for a plugin to deactivate itself on error
 * Plugin storage
   * Some way of bootstrapping specifc plugin data into the store on first run
+* Daemonisation
+  * Actually complete the daemonisation side of things
 
 ## Known Issues
 
-* Bot has a bad habit of disappearing from rooms after long periods of inactivity
+* Bot has a bad habit of disappearing from rooms after long periods of inactivity.  In fact, it's not just inactivity: sometimes it seems to drop out of the room for no reason, and with no error...
