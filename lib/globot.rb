@@ -15,9 +15,12 @@ module Globot
   # also abstract things slightly because all class names and file names are
   # consistent.  For more info on the thread-safety of `autoload` see
   # http://www.ruby-forum.com/topic/172385
-  %w{ Bot Person Message Plugins Config Runner }.each do |klass|
+  %w{ Bot Person Message Plugins Config Runner Store }.each do |klass|
     autoload klass.to_sym, "globot/#{klass.downcase}"
   end
+  # `StoreProxy` is in the `store.rb` file, so doesn't conform to the naming
+  # conventions that allow us to semi-automate things above.
+  autoload :StoreProxy, "globot/store"
 
   class << self
     attr_accessor :logger, :config

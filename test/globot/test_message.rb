@@ -47,4 +47,10 @@ class MessageTest < Test::Unit::TestCase
     end
   end
 
+  def test_message_can_be_created_without_a_user
+    payload = @simple_message.delete('user')
+    msg = Globot::Message.new(payload, @room)
+    assert_nil msg.person
+  end
+
 end

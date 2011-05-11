@@ -1,10 +1,10 @@
 globot:
   rooms: [Test, Another Room, Secret Room]
   logger:
-    path: /path/to/globot.log
+    path: tmp/globot-test.log
     level: debug
   plugins:
-    database: /path/to/globot.db
+    database: tmp/globot-test.db
 campfire:
   account: campfire_account_name
   api_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
