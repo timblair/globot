@@ -5,6 +5,7 @@ gem 'trollop'
 gem 'i18n'
 gem 'activesupport'
 gem 'sqlite3'
+gem 'hpricot'
 
 group :development do
   gem 'rocco'
