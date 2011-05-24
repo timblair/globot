@@ -12,6 +12,8 @@
   * Some way of bootstrapping specifc plugin data into the store on first run
 * Daemonisation
   * Actually complete the daemonisation side of things
+* Message handling
+  * Better way of dealing with message types: maybe `Message#enter?` or similar?
 
 ## Known Issues
 
