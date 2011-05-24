@@ -32,7 +32,7 @@ module Globot
     Globot.basepath = File.expand_path('..', File.dirname(__FILE__))
 
     def init_logger(file, level)
-      file = File.join(Globot.basepath, file) if file.class == String && !file.match(/^[\\\/]/)
+      file = File.join(Globot.basepath, file) if file.class == String && !file.match(/^[\\\/~]/)
       level = level.upcase! && %w{ DEBUG INFO WARN ERROR FATAL }.include?(level) ? level : "INFO"
       Globot.logger = Logger.new(file)
       Globot.logger.progname = 'globot'
