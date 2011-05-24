@@ -15,7 +15,7 @@ module Globot
       @id    = me['id']
       @email = me['email_address']
       @name  = me['name']
-      puts "Logged in as #{name} <#{email}> [ID##{id}]"
+      Globot.logger.info "Logged in as #{name} <#{email}> [ID##{id}]"
 
       @rooms = @campfire.rooms
       @rooms = @rooms.select { |r| opts[:rooms].include? r.name } if !opts[:rooms].nil?
@@ -26,6 +26,7 @@ module Globot
     def start
       threads = []
       @rooms.each do |room|
+        Globot.logger.info "Joining room: #{room.name}"
         # `Room#listen` blocks, so run each one in a separate thread
         threads << Thread.new do
           room.listen do |msg|
