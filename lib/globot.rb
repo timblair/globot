@@ -23,15 +23,16 @@ module Globot
   autoload :StoreProxy, "globot/store"
 
   class << self
-    attr_accessor :logger, :config
+    attr_accessor :logger, :config, :basepath
 
     # To make sure we've got access to the logger and configs at a module
     # level, we'll define them here with default values
     Globot.logger = Logger.new(nil)
     Globot.config = Globot::Config.instance
+    Globot.basepath = File.expand_path('..', File.dirname(__FILE__))
 
     def init_logger(file, level)
-      file = File.join(File.dirname(__FILE__), '..', file) if file.class == String && !file.match(/^[\\\/]/)
+      file = File.join(Globot.basepath, file) if file.class == String && !file.match(/^[\\\/]/)
       level = level.upcase! && %w{ DEBUG INFO WARN ERROR FATAL }.include?(level) ? level : "INFO"
       Globot.logger = Logger.new(file)
       Globot.logger.progname = 'globot'
