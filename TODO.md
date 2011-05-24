@@ -5,7 +5,6 @@
   * Basic project page (GH pages?)
   * Published, detailed Rocco docs
 * Plugin management
-  * Specifiy alternate/additional locations to load plugins from
   * Some way of enabling/disabling specific plugins
   * Provide a mechanism for a plugin to deactivate itself on error
 * Plugin storage

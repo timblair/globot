@@ -13,10 +13,15 @@ module Globot
 
       # Load and activate all available plugins.
       def load!
+        # We can load plugins from multiple locations to make organisation easier.
         # Each file should contain one or more subclasses of `Globot::Plugin::Base`
         # which, when loaded, will automatically register the class with this
         # class, meaning we have a collection of all available plugins.
-        Dir[File.expand_path('../plugins/*.rb', __FILE__)].collect { |p| load p }
+        paths = Globot.config.for_plugin('loadpath') || File.join(%w{ lib globot plugins })
+        paths.each do |path|
+          Globot.logger.debug "Loading plugins from #{path}"
+          Dir[File.expand_path(File.join(path, '*.rb'), Globot.basepath)].collect { |p| load p }
+        end
 
         # Once we've loaded and registered all plugins, we activate them all by
         # creating a new instance of each one.
@@ -31,6 +36,7 @@ module Globot
       # We register the class names of all available plugins to allow us to
       # instantiate and activate those that we require.
       def register(klass)
+        Globot.logger.debug "Registered plugin: #{klass}"
         @plugins << klass
       end
 
