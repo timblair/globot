@@ -39,7 +39,7 @@ module Globot
     def self.parse_command(str)
       !str.nil? && str.match(/^![^\s]/) ?
         [ str[1..-1].split(/\s/).first, str.gsub(/^.*?\s+/, '') ] :
-        [ nil, str ]
+        [ nil, str || "" ]
     end
 
   end
