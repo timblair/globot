@@ -8,7 +8,7 @@ Globot is the [globaldev](http://globaldev.co.uk/) chat bot.  He's young at the 
 2. Get the source: `git clone git://github.com/timblair/globot.git`.
 3. Create a `globot.yml` file based on the provided `globot.yml.example`, entering the rooms you want the bot to join, and the appropriate account name and API key.
 4. Run `bundle install` to make sure you've got the gems you need.
-5. Run `bundle exec bin/bot start` to run in the console, or use the `-d` flag to daemonise.
+5. Run `bin/globot start` to run in the console, or use the `-d` flag to daemonise.
 
 ## Creating Plugins
 

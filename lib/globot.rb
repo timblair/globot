@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'bundler/setup'
 require 'tinder'
 require 'json'   # Tinder needs this internally for parsing the transcript
 require 'logger'
