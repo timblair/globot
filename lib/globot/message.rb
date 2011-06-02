@@ -6,7 +6,7 @@ module Globot
     def initialize(msg, room)
       @raw    = msg['body']
       @type   = msg['type']
-      @person = Globot::Person.new msg['user'] if msg.has_key? 'user'
+      @person = Globot::Person.new msg['user'] if msg.has_key?('user') && !msg['user'].nil?
       @room   = room
       @command, @body = self.class.parse_command(@raw)
     end

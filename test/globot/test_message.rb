@@ -53,6 +53,12 @@ class MessageTest < Test::Unit::TestCase
     assert_nil msg.person
   end
 
+  def test_message_can_be_created_with_a_nil_user
+    @simple_message['user'] = nil
+    msg = Globot::Message.new(@simple_message, @room)
+    assert_nil msg.person
+  end
+
   def test_message_body_should_never_be_nil
     @simple_message.delete('body')
     msg = Globot::Message.new(@simple_message, @room)
