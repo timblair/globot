@@ -14,11 +14,13 @@ Globot is the [globaldev](http://globaldev.co.uk/) chat bot.  He's young at the 
 
 Creating a new plugin is as simple as creating a new class which extends from `Globot::Plugin::Base`, and that defines the `handle` method, which takes in an instance of `Globot::Message` as a single argument.  For example, a plugin which welcomes a user when they join the room could be written as follows:
 
-	class MyTestPlugin < Globot::Plugin::Base
-	  def handle(msg)
-	    msg.reply "Hello, #{msg.person.name}" if msg.type == 'EnterMessage'
-	  end
-	end
+```ruby
+class MyTestPlugin < Globot::Plugin::Base
+  def handle(msg)
+    msg.reply "Hello, #{msg.person.name}" if msg.type == 'EnterMessage'
+  end
+end
+```
 
 ## Licensing and Attribution
 
