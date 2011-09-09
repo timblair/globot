@@ -12,8 +12,7 @@ class LiveDeparturePluginTest < Test::Unit::TestCase
 
   def test_setting_a_default_route_stores_the_serialised_route
     route = %w{ WNC SLO }
-    val = @plugin.store_default_for @msg.person, route
-    assert_equal route.to_json, val
+    @plugin.store_default_for @msg.person, route
     assert_equal @plugin.default_for(@msg.person), route
   end
 

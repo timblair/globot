@@ -26,7 +26,7 @@ module Globot::Test
       # Re-load any configuration.
       Globot::Config.load File.join(File.dirname(__FILE__), 'config.yml')
       # Clear the persistent store.
-      Globot::Plugins.store.truncate!
+      Globot::Plugins.store.redis.flushdb
     end
   end
 end

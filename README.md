@@ -4,11 +4,14 @@ Globot is the [globaldev](http://globaldev.co.uk/) chat bot.  He's young at the 
 
 ## Running Globot
 
+Globot relies on [Redis](http://redis.io/) for persistent storage for plugins.  The default configuration provided assumes Redis is running on `localhost` on the default port (`6379`), and uses database `0`.
+
 1. Create a user on your [Campfire](http://campfirenow.com/) site for the bot to run as, and generate an API authentication token (you'll find it on the "Edit my Campfire Account" screen in Campfire.)
 2. Get the source: `git clone git://github.com/timblair/globot.git`.
 3. Create a `globot.yml` file based on the provided `globot.yml.example`, entering the rooms you want the bot to join, and the appropriate account name and API key.
-4. Run `bundle install` to make sure you've got the gems you need.
-5. Run `bin/globot start` to run in the console, or use the `-d` flag to daemonise.
+4. Make sure Redis is running and appropriately configured in `globot.yml`.
+5. Run `bundle install` to make sure you've got the gems you need.
+6. Run `bundle exec bin/bot start` to run in the console.
 
 ## Creating Plugins
 

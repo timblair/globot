@@ -4,7 +4,10 @@ globot:
     path: tmp/globot.log
     level: debug
   plugins:
-    database: tmp/globot.db
+    database:
+      host: localhost
+      port: 6379
+      db: 0
     loadpath: [ lib/globot/plugins ]
 campfire:
   account: campfire_account_name

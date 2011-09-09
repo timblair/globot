@@ -55,8 +55,8 @@ module Globot
       end
 
       # A persistent store is provided for plugins to use as they will.  The
-      # location of the SQLite database is stored in the special `database`
-      # plugin key.
+      # connection information for the Redis database database is stored in the
+      # special `database` plugin key.
       def store
         @store ||= Globot::Store.new(Globot.config.for_plugin('database'))
       end
@@ -115,19 +115,13 @@ module Globot
 
       private
 
-      # Provides a KVP style persistent store for data for the plugin.
-      # All direct access is abstracted away into three simple commands:
-      # `set`, `get` and `del`.  When `set` is called, the value actually
-      # stored (and returned from future `get` calls) is the `to_s`
-      # version of whatever object is given.  Example usage:
+      # Provides persistent data storage for the plugin via Redis.
       #
-      #     store.get 'my_key'           # => nil
-      #     store.set 'my_key', 'value'  # => true
-      #     store.get 'my_key'           # => 'value'
-      #     store.del 'my_key'           # => true
-      #     store.del 'my_key'           # => false
+      # The store object is a redis-namespace instance, and all Redis methods
+      # are available to the plugin through this.  Each plugin's data is
+      # protected via namspacing based on the plugin's class name.
       def store
-        @store ||= Globot::StoreProxy.new(Globot::Plugins.store, self)
+        @store ||= Globot::Plugins.store.proxy_for(self)
       end
 
     end # class Base

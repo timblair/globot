@@ -4,7 +4,9 @@ gem 'json'
 gem 'trollop'
 gem 'i18n'
 gem 'activesupport'
-gem 'sqlite3'
+gem 'redis'
+gem 'redis-namespace'
+gem 'system_timer'
 gem 'hpricot'
 
 group :development do
