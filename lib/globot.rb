@@ -4,10 +4,6 @@ require 'tinder'
 require 'json'   # Tinder needs this internally for parsing the transcript
 require 'logger'
 
-# Turn SSL verification off to stop incredibly annoying "peer certificate
-# won't be verified in this SSL session" warnings.
-require 'ext/tinder/disable_ssl_verification'
-
 module Globot
   VERSION = "0.0.1"
 
