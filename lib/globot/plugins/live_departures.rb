@@ -17,7 +17,7 @@ module Globot
 
       def connection
         @connection ||= Faraday.new(:url => service_host) do |builder|
-          builder.use Faraday::Response::ActiveSupportJson
+          builder.use Faraday::Response::ParseJson
           builder.adapter Faraday.default_adapter
         end
       end
