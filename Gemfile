@@ -10,6 +10,7 @@ gem 'system_timer'
 gem 'hpricot'
 
 group :development do
+  gem 'rake'
   gem 'rocco'
 end
 
