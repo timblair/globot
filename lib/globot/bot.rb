@@ -24,11 +24,17 @@ module Globot
     # Start listening to all messages on the configured rooms.  Takes each
     # message and palms it off to the plugin manager for processing.
     def start
-      threads = []
-      @rooms.each do |room|
-        Globot.logger.info "Joining room: #{room.name}"
-        # `Room#listen` blocks, so run each one in a separate thread
-        threads << Thread.new do
+      # `Room#listen` blocks, so run each one in a separate thread
+      @rooms.collect { |room| Thread.new { join room } }.each { |t| t.join }
+    end
+
+    private
+
+    def join(room)
+      begin
+        begin
+          Globot.logger.info "Joining room: #{room.name}"
+          reconnect = false
           room.listen do |msg|
             begin
               # Ignore messages originating from the bot's user
@@ -40,9 +46,12 @@ module Globot
               Globot.logger.error "#{e.message}\n#{trace}"
             end
           end
+        rescue Tinder::ListenFailed => e
+          Globot.logger.error "Failed listening to #{room.name}: #{e.message}"
+          reconnect = !reconnect  # only reconnect once
         end
-      end
-      threads.each { |t| t.join }
+      end while reconnect
+      Globot.logger.info "Left room: #{room.name}"
     end
 
   end
