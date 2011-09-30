@@ -32,25 +32,20 @@ module Globot
 
     def join(room)
       begin
-        begin
-          Globot.logger.info "Joining room: #{room.name}"
-          reconnect = false
-          room.listen do |msg|
-            begin
-              # Ignore messages originating from the bot's user
-              if !msg.nil? && (msg['user'].nil? || msg['user']['id'] != id)
-                Globot::Plugins.handle Globot::Message.new(msg, room)
-              end
-            rescue Exception => e
-              trace = e.backtrace.join("\n")
-              Globot.logger.error "#{e.message}\n#{trace}"
-            end
+        Globot.logger.info "Joining room: #{room.name}"
+        room.listen do |msg|
+          # Ignore messages originating from the bot's user
+          if !msg.nil? && (msg['user'].nil? || msg['user']['id'] != id)
+            Globot::Plugins.handle Globot::Message.new(msg, room)
           end
-        rescue Tinder::ListenFailed => e
-          Globot.logger.error "Failed listening to #{room.name}: #{e.message}"
-          reconnect = !reconnect  # only reconnect once
         end
-      end while reconnect
+      rescue Exception => e
+        Globot.logger.error "Error listening to #{room.name}."
+        Globot.logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join("\n")}"
+        # If it's a known error we'll retry
+        retry if [HTTP::Parser::Error, Tinder::ListenFailed].include? e.class
+      end
+      room.leave rescue nil
       Globot.logger.info "Left room: #{room.name}"
     end
 
